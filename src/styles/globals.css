@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --void: #000000;
+  --onyx: #0a0a0a;
+  --ink: #f5f5f5;
+  --acid: #ccff00;
+  --cyan: #00f0ff;
+  --pink: #ff00ff;
+  --chrome-1: #ffffff;
+  --chrome-2: #888888;
+  --chrome-3: #e0e0e0;
+  --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--void);
+}
+
+body {
+  background: var(--void);
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+}
+
+::selection {
+  background: var(--acid);
+  color: var(--void);
+}
+
+/* Focus visibility - accessibility mandatory */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--acid);
+  outline-offset: 4px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--void);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--chrome-2);
+}
+
+/* Chrome text material */
+.chrome-text {
+  background: linear-gradient(
+    100deg,
+    #fff 15%,
+    var(--chrome-2) 35%,
+    #fff 50%,
+    var(--chrome-2) 65%,
+    #fff 85%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: chrome-shift 8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chrome-text {
+    animation: none;
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes chrome-shift {
+  to {
+    background-position: 250% 0;
+  }
+}
+
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--acid);
+}
+
+.text-chromatic {
+  position: relative;
+}
+.text-chromatic::before,
+.text-chromatic::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0.6;
+  mix-blend-mode: screen;
+}
+.text-chromatic::before {
+  color: var(--cyan);
+  transform: translate(-1.5px, 0.5px);
+}
+.text-chromatic::after {
+  color: var(--pink);
+  transform: translate(1.5px, -0.5px);
+}
+
+/* Noise overlay */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.hairline {
+  height: 1px;
+  background: rgba(245, 245, 245, 0.12);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 24s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation-duration: 60s;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
