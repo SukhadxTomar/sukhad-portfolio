@@ -78,7 +78,9 @@ export default function ProjectDeck() {
               if (isTop) {
                 const isExiting = exitDirection !== null;
                 style = {
-                  zIndex: STACK_DEPTH + 1,
+                  // Far above every stacked card so the active card — and its
+                  // action row — can never be visually or interactively obscured.
+                  zIndex: 100,
                   transform: `translate(${drag.x}px, ${drag.y}px) rotate(${drag.rotation}deg) scale(${drag.dragging ? 1.03 : 1})`,
                   transition: drag.dragging
                     ? 'none'

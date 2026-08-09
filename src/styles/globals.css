@@ -133,6 +133,15 @@ button:focus-visible,
   background: rgba(245, 245, 245, 0.12);
 }
 
+/* Hide scrollbar while keeping scroll functionality (used in ProjectCard content overflow) */
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge legacy */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
 .marquee-track {
   display: flex;
   width: max-content;

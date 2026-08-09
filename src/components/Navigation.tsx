@@ -29,6 +29,8 @@ export default function Navigation() {
             <li key={l.label}>
               <a
                 href={l.href}
+                target={l.label === 'RESUME' ? '_blank' : undefined}
+                rel={l.label === 'RESUME' ? 'noopener noreferrer' : undefined}
                 className="group relative text-xs tracking-[0.15em] font-medium uppercase text-[var(--ink)] transition-colors hover:text-[var(--acid)]"
               >
                 <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
@@ -78,6 +80,8 @@ export default function Navigation() {
                   <a
                     href={l.href}
                     onClick={close}
+                    target={l.label === 'RESUME' ? '_blank' : undefined}
+                    rel={l.label === 'RESUME' ? 'noopener noreferrer' : undefined}
                     className="font-display text-[15vw] leading-[0.95] uppercase text-[var(--ink)] hover:text-[var(--acid)] transition-colors block"
                   >
                     {l.label}
