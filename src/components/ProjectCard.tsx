@@ -1,6 +1,7 @@
 import { ArrowUpRight, Code2 } from 'lucide-react';
 import type { Project } from '../data/projects';
 import type { CSSProperties } from 'react';
+import { Link } from 'react-router-dom';
 
 interface ProjectCardProps {
   project: Project;
@@ -87,7 +88,7 @@ export default function ProjectCard({
         {/* ── ACTIONS (pinned to bottom, never scrolls away) ── */}
         <div className="shrink-0 mt-4 flex gap-6 pt-5 border-t border-white/[0.12]">
           <a
-            href={project.github}
+            href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
             tabIndex={isTop ? 0 : -1}
@@ -96,9 +97,14 @@ export default function ProjectCard({
           >
             <Code2 size={14} /> GitHub
           </a>
-          <span className="flex items-center gap-1.5 text-xs tracking-[0.15em] uppercase text-[var(--chrome-2)]">
-            <ArrowUpRight size={14} /> View Project
-          </span>
+          <Link
+            to={`/projects/${project.slug}`}
+            onPointerDown={(event) => event.stopPropagation()}
+            tabIndex={isTop ? 0 : -1}
+            className="flex items-center gap-1.5 text-xs tracking-[0.15em] uppercase text-[var(--chrome-2)] hover:text-[var(--acid)] transition-colors"
+          >
+            <ArrowUpRight size={14} /> View My Project
+          </Link>
         </div>
       </div>
     </div>

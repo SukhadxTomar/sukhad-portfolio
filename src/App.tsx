@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import NoiseOverlay from './components/NoiseOverlay';
 import Marquee from './components/Marquee';
 import Navigation from './components/Navigation';
@@ -9,10 +10,11 @@ import ProjectDeck from './components/ProjectDeck';
 import Capabilities from './components/Capabilities';
 import Timeline from './components/Timeline';
 import Contact from './components/Contact';
+import ProjectDetail from './components/ProjectDetail';
 import { useReducedMotion } from './hooks/useReducedMotion';
 import { marqueeWords } from './data/skills';
 
-function App() {
+function HomePage() {
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
@@ -50,6 +52,16 @@ function App() {
         <Contact />
       </main>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/projects/:slug" element={<ProjectDetail />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 
