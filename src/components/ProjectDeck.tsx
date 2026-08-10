@@ -19,6 +19,7 @@ export default function ProjectDeck() {
     onPointerDown,
     onPointerMove,
     onPointerUp,
+    onPointerCancel,
     onKeyDown,
   } = useProjectDeck(projects.length);
 
@@ -103,6 +104,7 @@ export default function ProjectDeck() {
                   onPointerDown={onPointerDown}
                   onPointerMove={onPointerMove}
                   onPointerUp={onPointerUp}
+                  onPointerCancel={onPointerCancel}
                 />
               );
             })}

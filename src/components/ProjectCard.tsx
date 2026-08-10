@@ -10,6 +10,7 @@ interface ProjectCardProps {
   onPointerDown?: (e: React.PointerEvent<HTMLDivElement>) => void;
   onPointerMove?: (e: React.PointerEvent<HTMLDivElement>) => void;
   onPointerUp?: (e: React.PointerEvent<HTMLDivElement>) => void;
+  onPointerCancel?: () => void;
   cardRef?: React.Ref<HTMLDivElement>;
 }
 
@@ -20,6 +21,7 @@ export default function ProjectCard({
   onPointerDown,
   onPointerMove,
   onPointerUp,
+  onPointerCancel,
   cardRef,
 }: ProjectCardProps) {
   return (
@@ -29,7 +31,7 @@ export default function ProjectCard({
       onPointerDown={isTop ? onPointerDown : undefined}
       onPointerMove={isTop ? onPointerMove : undefined}
       onPointerUp={isTop ? onPointerUp : undefined}
-      onPointerCancel={isTop ? onPointerUp : undefined}
+      onPointerCancel={isTop ? onPointerCancel : undefined}
       className={`absolute inset-0 select-none ${isTop ? 'cursor-grab active:cursor-grabbing' : 'pointer-events-none'}`}
     >
       <div className="relative h-full w-full bg-[var(--onyx)] border border-white/15 p-7 md:p-9 flex flex-col overflow-hidden [container-type:inline-size]">

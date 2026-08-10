@@ -18,6 +18,8 @@ export function useProjectDeck(total: number) {
   const startY = useRef(0);
   const deckWidth = useRef(600);
   const cardRef = useRef<HTMLDivElement | null>(null);
+  const activePointerId = useRef<number | null>(null);
+  const gesture = useRef<'pending' | 'horizontal' | 'vertical' | null>(null);
 
   const next = useCallback(() => {
     setActiveIndex((i) => (i + 1) % total);
@@ -28,26 +30,54 @@ export function useProjectDeck(total: number) {
   }, [total]);
 
   const onPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    if (!e.isPrimary || e.button !== 0) return;
+
+    e.currentTarget.setPointerCapture(e.pointerId);
+    activePointerId.current = e.pointerId;
+    gesture.current = 'pending';
     startX.current = e.clientX;
     startY.current = e.clientY;
     deckWidth.current = cardRef.current?.offsetWidth ?? 600;
-    setDrag({ x: 0, y: 0, rotation: 0, dragging: true });
+    setDrag({ x: 0, y: 0, rotation: 0, dragging: false });
   }, []);
 
   const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (activePointerId.current !== e.pointerId || gesture.current === 'vertical') return;
+
     setDrag((d) => {
-      if (!d.dragging) return d;
       const dx = e.clientX - startX.current;
       const dy = e.clientY - startY.current;
+
+      if (gesture.current === 'pending') {
+        if (Math.max(Math.abs(dx), Math.abs(dy)) < 6) return d;
+        gesture.current = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+        if (gesture.current === 'vertical') return { x: 0, y: 0, rotation: 0, dragging: false };
+      }
+
       const rotation = (dx / deckWidth.current) * 22;
       return { x: dx, y: dy * 0.3, rotation, dragging: true };
     });
   }, []);
 
-  const onPointerUp = useCallback(() => {
+  const resetPointer = useCallback(() => {
+    activePointerId.current = null;
+    gesture.current = null;
+    setDrag({ x: 0, y: 0, rotation: 0, dragging: false });
+  }, []);
+
+  const onPointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (activePointerId.current !== e.pointerId) return;
+    const wasHorizontal = gesture.current === 'horizontal';
+    activePointerId.current = null;
+    gesture.current = null;
+
+    if (!wasHorizontal) {
+      setDrag({ x: 0, y: 0, rotation: 0, dragging: false });
+      return;
+    }
+
     setDrag((d) => {
-      if (!d.dragging) return d;
+      if (!d.dragging) return { x: 0, y: 0, rotation: 0, dragging: false };
       const threshold = deckWidth.current * 0.1;
       if (Math.abs(d.x) > threshold) {
         const dir: 1 | -1 = d.x > 0 ? 1 : -1;
@@ -87,6 +117,7 @@ export function useProjectDeck(total: number) {
     onPointerDown,
     onPointerMove,
     onPointerUp,
+    onPointerCancel: resetPointer,
     onKeyDown,
     EASE,
   };

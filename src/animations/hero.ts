@@ -14,10 +14,9 @@ export interface HeroRefs {
 }
 
 export function buildHeroScroll(refs: HeroRefs, reducedMotion: boolean) {
-  if (reducedMotion) {
+  if (reducedMotion || window.matchMedia('(max-width: 767px)').matches) {
     // Static, intentional composition — no scroll-bound distortion.
-    gsap.set(refs.sukhad, { xPercent: 0 });
-    gsap.set(refs.tomar, { xPercent: 0 });
+    gsap.set([refs.sukhad, refs.tomar], { clearProps: 'transform,letterSpacing' });
     return () => {};
   }
 
