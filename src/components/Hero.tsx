@@ -68,7 +68,7 @@ export default function Hero() {
 
       <div className="relative z-10">
         <div ref={sukhadRef} className="leading-[0.82]">
-          <h1 className="chrome-text inline-block max-w-full pr-[0.08em] font-display uppercase tracking-[-0.04em] text-[clamp(3.2rem,15vw,10rem)]">
+          <h1 className="chrome-text inline-block max-w-full pr-[0.08em] font-display uppercase tracking-[-0.04em] text-[clamp(3.2rem,15vw,10rem)] max-md:text-[calc((100vw-3.5rem)/7.0625)]">
             SUKHAD
           </h1>
         </div>
